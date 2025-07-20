@@ -6,6 +6,7 @@ import {
   User,
   Users,
   X,
+  Clock,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -60,7 +61,7 @@ const ChatUI = ({ db, chats, onLoadChats }) => {
   };
 
   const formatTimestamp = (timestamp) => {
-    if (!timestamp) return "";
+    if (!timestamp) return "-";
     const date = timestamp instanceof Date ? timestamp : new Date(timestamp);
     return date.toLocaleString();
   };
@@ -124,12 +125,20 @@ const ChatUI = ({ db, chats, onLoadChats }) => {
                     <div className="flex items-center gap-2 mb-1">
                       <User className="w-4 h-4 text-gray-500 flex-shrink-0" />
                       <p className="text-sm font-medium text-gray-900 truncate">
-                        {chat.id || "Unknown User"}
+                        {chat.deviceName || chat.id || "Unknown User"}
                       </p>
                     </div>
                     <p className="text-sm text-gray-600 truncate">
                       {chat.lastMessage || "No messages"}
                     </p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <Clock className="w-3 h-3 text-gray-400" />
+                      <p className="text-xs text-gray-400">
+                        {formatTimestamp(
+                          chat.lastMessageTime || chat.createdAt
+                        )}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -158,7 +167,9 @@ const ChatUI = ({ db, chats, onLoadChats }) => {
                   </button>
                   <User className="w-5 h-5 text-gray-500" />
                   <h3 className="text-lg font-semibold text-gray-900">
-                    {selectedChat?.id || "Unknown User"}
+                    {selectedChat.deviceName ||
+                      selectedChat.id ||
+                      "Unknown User"}
                   </h3>
                 </div>
                 <div className="text-sm text-gray-500">

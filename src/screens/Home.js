@@ -251,6 +251,7 @@ const Home = () => {
           ...doc.data(),
         });
       });
+      console.log("🚀 ~ loadChats ~ chatsData:", chatsData);
       setChats(chatsData);
     } catch (error) {
       console.error("Error loading chats:", error);
